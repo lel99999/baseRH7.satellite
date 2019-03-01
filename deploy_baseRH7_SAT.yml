@@ -49,29 +49,6 @@
       yum:
         name: devtoolset-7      
         state: present
-#   - name: make necessary dirs for install
-#     command: mkdir -p /usr/java
-
-#   - name: install java jdk 1.8.x
-#     become: yes
-#     become_method: sudo
-#     command: "wget -q -O {{java_archive}} -P {{ path_base }}  --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}}"
-#     command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{path_base}}"
-
-#   - name: extract java
-#     shell: tar -xvf /home/vagrant/jdk-8u201-linux-x64.tar.gz -C /usr/java
-
-#   - name: create java symbolic link
-#     shell: ln -s /usr/java/jdk1.8.0_201/bin/java /usr/bin/java
-#     file:
-#       src: /usr/java/jdk1.8.0_191/bin/java
-#       dest: /usr/bin/java
-#       owner: root
-#       group: root
-#       state: link
-
-#   - name: configure alternatives for java
-#     shell: alternatives --install /usr/bin/java java /usr/java/jdk1.8.0_201/bin/java 15
 
     - name: download epel
       shell:  wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -O /tmp/epel-release-latest-7.noarch.rpm   
@@ -86,34 +63,6 @@
 #     shell: pip install gdown
 #   - name: use gdown to download jdk1.8.x from google drive
 #     shell: gdown https://drive.google.com/uc?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
-#   - name: download flink
-#     shell: wget http://ftp.wayne.edu/apache/flink/flink-1.7.1/flink-1.7.1-bin-hadoop28-scala_2.11.tgz -P /tmp
-#   - name: unpack flink
-#     become: yes
-#     become_method: sudo
-#     unarchive:
-#       src: /tmp/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
-#       src: /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
-#       dest: /opt
-#     shell: tar -xvzf /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
-      
-#   - name: start flink
-#     shell:  /opt/flink-1.7.1/bin/start-cluster.sh &
-
-#     shell: gdown https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B  --> change open?id to uc?id
-
-#   - name: use gdown to download and build local repo
-#     shell: gdown https://drive.google.com/uc?id=139Z0MfyT0WVWIzP_uwM2KxPCrfYs_vUV
-
-#   - name: Install pip
-#     easy_install:
-#       name: pip
-#       state: latest
-#   - name:  Build custom local repo
-#     shell:  wget https://drive.google.com/open?id=139Z0MfyT0WVWIzP_uwM2KxPCrfYs_vUV /tmp
- 
-#   - name:  Extract repo to destination point
-#     shell:  unzip /home/vagrant/devrepo-master.zip -d /opt
 #   - name: install createrepo
 #     yum:
 #       name: createrepo
@@ -141,7 +90,7 @@
 #   - stattransfer
 #   - sublime
 #   - ultra-edit
-# post_tasks:
+  post_tasks:
 #   - name: Install texlive
 #     yum:
 #       name: texlive
