@@ -3,12 +3,9 @@
 #   _uid: ""
 #   _pwd: ""
     custom_repo: true
-    java_link: https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
-    flink_archive: https://www.apache.org/dyn/closer.lua/flink/flink-1.7.1/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
-    java_archive: jdk-8u201-linux-x64.tar.gz
-    download_url: https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
-    path_base: /usr/local/java
-    path_archive: /usr/local/java/{{ java_archive }}
+#   java_link: https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
+#   java_archive: jdk-8u201-linux-x64.tar.gz
+#   download_url: https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
   vars_files:
     - ~/RHACCOUNT
   become: yes
@@ -85,16 +82,7 @@
 # roles:
 #   - umask
 #   - devtools
-#   - open_office
-#   - evince
-#   - stattransfer
-#   - sublime
-#   - ultra-edit
   post_tasks:
-#   - name: Install texlive
-#     yum:
-#       name: texlive
-#       state: present
     - name: remove RHEL7.5
       command:  "/usr/bin/subscription-manager remove --all"
     - name: unregister RHEL7.5
