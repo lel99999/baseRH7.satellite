@@ -1,0 +1,150 @@
+- hosts: baseRH7
+  vars:  
+#   _uid: ""
+#   _pwd: ""
+    custom_repo: true
+    java_link: https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
+    flink_archive: https://www.apache.org/dyn/closer.lua/flink/flink-1.7.1/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
+    java_archive: jdk-8u201-linux-x64.tar.gz
+    download_url: https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
+    path_base: /usr/local/java
+    path_archive: /usr/local/java/{{ java_archive }}
+  vars_files:
+    - ~/RHACCOUNT
+  become: yes
+  become_method: sudo
+  pre_tasks:
+    - debug:
+        msg: "Variables: _uid = {{ _uid }}, _pwd = {{ _pwd }}"    
+    - name: register RHEL7.5
+      command: "/usr/bin/subscription-manager register --username {{ _uid }} --password {{ _pwd }} --auto-attach"
+#     command: "/usr/bin/subscription-manager register --username <name> --password <password> --auto-attach"
+    - name: register RHEL7 repo
+      command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-optional-rpms"
+    - name: register RHEL7 RHSCL Repo
+      command: "/usr/bin/subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+    - name: register RHEL7 DevTools
+      command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-devtools-rpms"
+    - name: list RHEL enabled repos
+      command: "/usr/bin/subscription-manager repos --list-enabled"
+      register: enabled_repos
+    - debug:
+        msg: "RHEL Enabled Repos: {{ enabled_repos }}"    
+#   - name: list available repos
+#     command: /usr/bin/subscription-manager repos --list
+#     register: repos_list
+#   - debug:
+#       msg: "RH Repolist: {{ repos_list }}"
+#       verbosity: 3
+  tasks:
+    - name: install libselinux-python
+      yum:
+        name: libselinux-python
+        state: present      
+    - name: install DevTools-7
+      yum:
+        name: devtoolset-7      
+        state: present
+#   - name: make necessary dirs for install
+#     command: mkdir -p /usr/java
+
+#   - name: install java jdk 1.8.x
+#     become: yes
+#     become_method: sudo
+#     command: "wget -q -O {{java_archive}} -P {{ path_base }}  --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}}"
+#     command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{path_base}}"
+
+#   - name: extract java
+#     shell: tar -xvf /home/vagrant/jdk-8u201-linux-x64.tar.gz -C /usr/java
+
+#   - name: create java symbolic link
+#     shell: ln -s /usr/java/jdk1.8.0_201/bin/java /usr/bin/java
+#     file:
+#       src: /usr/java/jdk1.8.0_191/bin/java
+#       dest: /usr/bin/java
+#       owner: root
+#       group: root
+#       state: link
+
+#   - name: configure alternatives for java
+#     shell: alternatives --install /usr/bin/java java /usr/java/jdk1.8.0_201/bin/java 15
+
+    - name: download epel
+      shell:  wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -O /tmp/epel-release-latest-7.noarch.rpm   
+    - name: Install epel
+      shell:  yum -y localinstall /tmp/epel*rpm
+    - name: Install python-pip
+      yum:
+        name: python-pip
+        state: latest
+        
+#   - name: install gdown
+#     shell: pip install gdown
+#   - name: use gdown to download jdk1.8.x from google drive
+#     shell: gdown https://drive.google.com/uc?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
+#   - name: download flink
+#     shell: wget http://ftp.wayne.edu/apache/flink/flink-1.7.1/flink-1.7.1-bin-hadoop28-scala_2.11.tgz -P /tmp
+#   - name: unpack flink
+#     become: yes
+#     become_method: sudo
+#     unarchive:
+#       src: /tmp/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
+#       src: /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
+#       dest: /opt
+#     shell: tar -xvzf /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
+      
+#   - name: start flink
+#     shell:  /opt/flink-1.7.1/bin/start-cluster.sh &
+
+#     shell: gdown https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B  --> change open?id to uc?id
+
+#   - name: use gdown to download and build local repo
+#     shell: gdown https://drive.google.com/uc?id=139Z0MfyT0WVWIzP_uwM2KxPCrfYs_vUV
+
+#   - name: Install pip
+#     easy_install:
+#       name: pip
+#       state: latest
+#   - name:  Build custom local repo
+#     shell:  wget https://drive.google.com/open?id=139Z0MfyT0WVWIzP_uwM2KxPCrfYs_vUV /tmp
+ 
+#   - name:  Extract repo to destination point
+#     shell:  unzip /home/vagrant/devrepo-master.zip -d /opt
+#   - name: install createrepo
+#     yum:
+#       name: createrepo
+#       state: latest
+#   - name: create local repo 
+#     shell: createrepo /opt/devrepo-master/Packages
+#   - name: create local repo file with updated link
+#     file:
+#       path: /etc/yum.repos.d/local.repo
+#       state: touch
+#       mode: "u=rw,g=r,o=r" 
+#   - name: edit local.repo file
+#     shell: |
+#       echo '[localrepo]\n
+#       name=localrepo\n
+#       baseurl=file:///opt/devrepo-master/Packages\n
+#       enabled=1\n
+#       gpgcheck=0\n' >> /etc/yum.repos.d/local.repo
+ 
+# roles:
+#   - umask
+#   - devtools
+#   - open_office
+#   - evince
+#   - stattransfer
+#   - sublime
+#   - ultra-edit
+# post_tasks:
+#   - name: Install texlive
+#     yum:
+#       name: texlive
+#       state: present
+    - name: remove RHEL7.5
+      command:  "/usr/bin/subscription-manager remove --all"
+    - name: unregister RHEL7.5
+      command:  "/usr/bin/subscription-manager unregister"
+    - name: clean RHEL7.5
+      command:  "/usr/bin/subscription-manager clean"
