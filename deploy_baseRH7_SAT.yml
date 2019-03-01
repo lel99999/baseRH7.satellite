@@ -23,6 +23,10 @@
       command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-optional-rpms"
     - name: register RHEL7 RHSCL Repo
       command: "/usr/bin/subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+    - name: register RHEL7 Satellite Repo 
+      command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-satellite-6.4-rpms --enable=rhel-7-server-satellite-maintenance-6-rpms"
+    - name: register RHEL7 Ansible Repo 
+      command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-ansible-2.6-rpms"
     - name: register RHEL7 DevTools
       command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-devtools-rpms"
     - name: list RHEL enabled repos
