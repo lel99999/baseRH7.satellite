@@ -56,6 +56,11 @@
         name: python-pip
         state: latest
         
+    - name: install satellite
+      yum:
+        name: satellite
+        state: latest
+        
 #   - name: install gdown
 #     shell: pip install gdown
 #   - name: use gdown to download jdk1.8.x from google drive
