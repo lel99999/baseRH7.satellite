@@ -60,7 +60,12 @@
       yum:
         name: satellite
         state: latest
-        
+# Custom repo configuration        
+#   - name: install custom rpm to satellite repo
+#     shell: hammer repository upload-content --path /root/my-custom-package-1.2.3.rpm --product product-name --organization Organization-label --name test-repo
+#   - name: install multiple rpms to satellite repo
+#     shell: hammer repository upload-content --organization Org-name --product product-name --path /root/ --name repo-name
+
 #   - name: install gdown
 #     shell: pip install gdown
 #   - name: use gdown to download jdk1.8.x from google drive
